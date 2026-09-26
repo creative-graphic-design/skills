@@ -38,7 +38,7 @@
 # @exitcode 1 A Shuhari gate failed.
 # @exitcode 2 Invalid usage, or `shuhari` is not installed.
 # @example
-#   scripts/shuhari_staged_targets.sh eval skills/cgd-design-principles/SKILL.md
+#   scripts/shuhari_staged_targets.sh eval skills/design/cgd-design-principles/SKILL.md
 
 set -Eeuo pipefail
 
@@ -164,19 +164,26 @@ function validate_shuhari_mode() {
     fi
 }
 
-# @description Resolve a changed path to its skill directory name.
+# @description Resolve a changed path to its collection/skill directory.
 # @arg $1 path Repository-relative or absolute changed path.
-# @stdout The skill directory name, or nothing for paths outside `skills/`.
-function skill_name_of() {
+# @stdout The collection/skill path, or nothing for paths outside the layout.
+function skill_path_of() {
     local path="$1"
     local relative="${path#"${REPO_ROOT}/"}"
     relative="${relative#./}"
     case "${relative}" in
-    skills/*/*) ;;
+    skills/*-workspace/*) return 0 ;;
+    skills/*/*/*) ;;
     *) return 0 ;;
     esac
     local rest="${relative#skills/}"
-    printf '%s\n' "${rest%%/*}"
+    local collection="${rest%%/*}"
+    rest="${rest#*/}"
+    local name="${rest%%/*}"
+    case "${name}" in
+    *-workspace) return 0 ;;
+    esac
+    printf '%s/%s\n' "${collection}" "${name}"
 }
 
 # @description Collect existing skill directories for the supplied paths.
@@ -189,7 +196,7 @@ function skill_name_of() {
 function collect_targets() {
     local path name
     for path in "$@"; do
-        name="$(skill_name_of "${path}")"
+        name="$(skill_path_of "${path}")"
         [ -n "${name}" ] || continue
         [ -f "${SKILLS_ROOT}/${name}/SKILL.md" ] || continue
         printf '%s\n' "${SKILLS_ROOT}/${name}"

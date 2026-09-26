@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Type role comparison</title>
+  <desc id="desc">Three original typographic treatments of the same short invitation copy.</desc>
+  <rect width="1600" height="900" fill="#F4F1EA"/>
+  <text x="70" y="76" fill="#18344A" font-family="Arial" font-size="26" font-weight="700" letter-spacing="2">TYPE ROLE COMPARISON</text>
+  <text x="70" y="116" fill="#60727A" font-family="Arial" font-size="20">The same words can feel quiet, muddy, or clearly organized.</text>
+
+  <rect x="60" y="170" width="470" height="650" rx="22" fill="#FFFDF8" stroke="#D7D1C5" stroke-width="2"/>
+  <rect x="565" y="170" width="470" height="650" rx="22" fill="#FFFDF8" stroke="#D7D1C5" stroke-width="2"/>
+  <rect x="1070" y="170" width="470" height="650" rx="22" fill="#FFFDF8" stroke="#D7D1C5" stroke-width="2"/>
+
+  <text x="96" y="226" fill="#2D827C" font-family="Arial" font-size="15" font-weight="700" letter-spacing="2">A · QUIET HARMONY</text>
+  <text x="601" y="226" fill="#E7A83E" font-family="Arial" font-size="15" font-weight="700" letter-spacing="2">B · NEARLY SIMILAR</text>
+  <text x="1106" y="226" fill="#2D827C" font-family="Arial" font-size="15" font-weight="700" letter-spacing="2">C · CLEAR ROLES</text>
+
+  <g text-anchor="middle">
+    <text x="295" y="390" fill="#18344A" font-family="Arial" font-size="52" font-weight="700">MEET AT THE</text>
+    <text x="295" y="452" fill="#18344A" font-family="Arial" font-size="52" font-weight="700">CORNER</text>
+    <line x1="183" y1="492" x2="407" y2="492" stroke="#2D827C" stroke-width="4"/>
+    <text x="295" y="552" fill="#18344A" font-family="Arial" font-size="30" font-weight="700">6:30 PM</text>
+    <text x="295" y="626" fill="#60727A" font-family="Arial" font-size="20">BRING A FOLDING CHAIR</text>
+    <text x="295" y="750" fill="#60727A" font-family="Arial" font-size="15">one family · weight and size do the work</text>
+  </g>
+
+  <g>
+    <text x="601" y="328" fill="#18344A" font-family="Arial Narrow" font-size="38" font-weight="700">MEET AT THE CORNER</text>
+    <text x="601" y="420" fill="#E7A83E" font-family="Arial" font-size="46" font-weight="700">6:30 PM</text>
+    <line x1="601" y1="455" x2="970" y2="455" stroke="#D7D1C5" stroke-width="2"/>
+    <text x="642" y="530" fill="#18344A" font-family="Arial Narrow" font-size="26" font-weight="700">BRING A FOLDING CHAIR</text>
+    <text x="601" y="614" fill="#60727A" font-family="Arial" font-size="18" font-style="italic">same shape, same volume,</text>
+    <text x="601" y="646" fill="#60727A" font-family="Arial" font-size="18" font-style="italic">different voices without a reason</text>
+    <text x="601" y="750" fill="#60727A" font-family="Arial" font-size="15">similar faces · competing emphasis</text>
+  </g>
+
+  <g text-anchor="middle">
+    <text x="1305" y="356" fill="#18344A" font-family="Georgia" font-size="54" font-weight="700">MEET AT THE</text>
+    <text x="1305" y="420" fill="#18344A" font-family="Georgia" font-size="54" font-weight="700">CORNER</text>
+    <text x="1305" y="510" fill="#2D827C" font-family="Arial" font-size="31" font-weight="700">6:30 PM</text>
+    <text x="1305" y="584" fill="#18344A" font-family="Arial" font-size="19" font-weight="700" letter-spacing="2">BRING A FOLDING CHAIR</text>
+    <line x1="1188" y1="632" x2="1422" y2="632" stroke="#E7A83E" stroke-width="8"/>
+    <text x="1305" y="750" fill="#60727A" font-family="Arial" font-size="15">contrast by role · not a rule to use two families</text>
+  </g>
+</svg>

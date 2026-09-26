@@ -16,6 +16,10 @@ Use the supplied content, audience, purpose, dimensions, medium, and brand const
 
 Deliver the format the user requested. A request for a layout specification needs positions and styles; a request for an artifact needs an artifact. Use the available project tools and assets. Do not select a new application or output format just to demonstrate the principles.
 
+## Inspect the visual example
+
+Before composing a layout, open the [original layout comparison](references/layout-comparison.png) with an image-capable tool. Compare the panels' reading order, distances within and between groups, shared edges, and repeated treatments. Name the relationship you will transfer to the brief; do not copy the example's dimensions or visual style automatically. If image inspection is unavailable, state that limitation instead of claiming to have examined the example. The [editable SVG](references/layout-comparison.svg) is its source.
+
 ## Compose the page
 
 1. Choose the focal point from the communication goal. An event may lead with its subject and date; a service listing may lead with the service. The organization name is not automatically the most important element. Sketch the intended reading order before styling individual pieces.
@@ -63,7 +67,7 @@ Treat the book's particular font bans, point sizes, postal dimensions, and histo
 
 ## Check and deliver
 
-Inspect the rendered result when tooling permits, at the intended size. Trace the focal point and reading order, inspect the grouping and alignment, compare repeated treatments, and check that contrast still distinguishes roles. Also check clipping, overlaps, missing text, and readability. If only source or a specification was inspected, say so instead of claiming visual verification.
+Inspect the rendered result when tooling permits, at the intended size and as a reduced preview. Trace the focal point and reading order, inspect the grouping and alignment, compare repeated treatments, and check that contrast still distinguishes roles. Use a grayscale preview when hierarchy depends on hue. Check clipping, overlaps, missing text, and readability against the actual brief. If only source or a specification was inspected, say so instead of claiming visual verification.
 
 Return the artifact or actionable layout specification with a brief explanation of the decisions that matter for this brief. When revising, address the relevant defects without changing an established identity merely to demonstrate a principle.
 

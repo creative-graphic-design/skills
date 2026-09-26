@@ -16,6 +16,12 @@ Read the brief and inspect the supplied artifact. Prefer the rendered page for v
 
 A review returns findings. Do not edit the design unless the user requests implementation. Preserve intentional choices such as a formal centered layout, a monochrome palette, or a fixed brand family when evaluating possible fixes.
 
+## Calibrate the visual judgment
+
+Open the [original type comparison](references/type-comparison.png) with an image-capable tool before judging hierarchy or font relationships. Compare the quiet single-family treatment, the weak distinction between roles, and the stronger role contrast. Identify the visible relationship that supports a finding; a style different from the example is not itself a defect. If image inspection is unavailable, state that limit. The [editable SVG](references/type-comparison.svg) is its source.
+
+For a rendered artifact, inspect both its intended viewing size and a reduced preview. Trace where attention goes first and whether the same groups remain recognizable. When hue carries the hierarchy, check a grayscale preview too. Keep these observations separate from measurements not actually taken.
+
 ## Diagnose relationships
 
 First identify the intended focal point and the one that actually attracts attention. Trace the reading order and the reader's next action. Use the following checks where they explain an observed problem:

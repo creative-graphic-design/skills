@@ -16,7 +16,7 @@
 #   5. Each skill opens with a read-receipt NOTE naming that skill.
 #   6. `evals/evals.json` and `evals/triggers.json` agree with that name.
 #   7. Each skill directory starts with the repository's `cgd-` prefix.
-#   8. No `SKILL.md` is nested deeper than `skills/<name>/SKILL.md`.
+#   8. Every `SKILL.md` is at `skills/<collection>/<name>/SKILL.md`.
 #   9. No Shuhari workspace directory is tracked by git.
 #  10. The README skill index lists every skill exactly once and no removed skill.
 # @exitcode 0 When every check passes.
@@ -132,25 +132,19 @@ function assert_no_root_skill_file() {
     fi
 }
 
-# @description Reject a `SKILL.md` nested deeper than `skills/<name>/`.
+# @description Reject a `SKILL.md` outside `skills/<collection>/<name>/`.
 # @description
 #   Shuhari workspaces are pruned: they are run artifacts that can contain a
 #   copy of the skill under evaluation, which is not a layout violation.
-#
-#   Depth is judged from the path rather than with `-mindepth`. `-mindepth` is a
-#   global option, not a test, so `find` skips evaluating the expression for
-#   shallower entries entirely — including the `-prune` that excludes the
-#   workspaces, which sit one level down. With it, every workspace was walked
-#   and every skill copy inside one was reported: 52 false failures here, on a
-#   checkout where the only fault was having run the gates.
-function assert_no_nested_skill_files() {
+function assert_skill_depth() {
     local file relative
     while IFS= read -r file; do
         [ -n "${file}" ] || continue
         relative="${file#"${SKILLS_ROOT}/"}"
-        # `skills/<name>/SKILL.md` is the correct depth; anything deeper is not.
         case "${relative}" in
-        */*/*) fail "SKILL.md nested too deep: ${file#"${REPO_ROOT}/"}" ;;
+        */*/*/*) fail "SKILL.md nested too deep: ${file#"${REPO_ROOT}/"}" ;;
+        */*/*) ;;
+        *) fail "SKILL.md must be under a collection: ${file#"${REPO_ROOT}/"}" ;;
         esac
     done < <(find "${SKILLS_ROOT}" -type d -name '*-workspace' -prune -o -name 'SKILL.md' -print 2> /dev/null)
 }
@@ -170,6 +164,7 @@ function check_domain_prefix() {
 # @arg $1 skill_dir The absolute skill directory.
 function check_skill() {
     local skill_dir="$1"
+    local relative="${skill_dir#"${REPO_ROOT}/"}"
     local name
     name="$(basename -- "${skill_dir}")"
     local skill_file="${skill_dir}/SKILL.md"
@@ -177,20 +172,20 @@ function check_skill() {
     check_domain_prefix "${name}"
 
     if [ ! -f "${skill_file}" ]; then
-        fail "skills/${name} has no SKILL.md"
+        fail "${relative} has no SKILL.md"
         return 0
     fi
 
     local declared
     declared="$(frontmatter_field "${skill_file}" name)"
     if [ -z "${declared}" ]; then
-        fail "skills/${name}/SKILL.md has no frontmatter name"
+        fail "${relative}/SKILL.md has no frontmatter name"
     elif [ "${declared}" != "${name}" ]; then
-        fail "skills/${name}/SKILL.md declares name ${declared}, which does not match its directory"
+        fail "${relative}/SKILL.md declares name ${declared}, which does not match its directory"
     fi
 
     if [ -z "$(frontmatter_field "${skill_file}" description)" ]; then
-        fail "skills/${name}/SKILL.md has no frontmatter description"
+        fail "${relative}/SKILL.md has no frontmatter description"
     fi
 
     local opening note receipt
@@ -198,9 +193,9 @@ function check_skill() {
     note="${opening%%$'\n'*}"
     receipt="${opening#*$'\n'}"
     if [ "${note}" != '> [!NOTE]' ] || [ "${receipt}" = "${opening}" ]; then
-        fail "skills/${name}/SKILL.md has no read-receipt NOTE immediately after frontmatter"
+        fail "${relative}/SKILL.md has no read-receipt NOTE immediately after frontmatter"
     elif ! is_valid_read_receipt "${receipt}" "${name}"; then
-        fail "skills/${name}/SKILL.md has an invalid read receipt for ${name}"
+        fail "${relative}/SKILL.md has an invalid read receipt for ${name}"
     fi
 
     local eval_file
@@ -211,7 +206,7 @@ function check_skill() {
         local declared_eval_name
         declared_eval_name="$(eval_skill_name "${path}")"
         if [ "${declared_eval_name}" != "${name}" ]; then
-            fail "skills/${name}/evals/${eval_file} declares skill_name ${declared_eval_name:-<missing>}, which does not match its directory"
+            fail "${relative}/evals/${eval_file} declares skill_name ${declared_eval_name:-<missing>}, which does not match its directory"
         fi
     done
 }
@@ -228,14 +223,14 @@ function assert_no_tracked_workspaces() {
     fi
 }
 
-# @description Read skill names linked from the README `## Skills` section.
-# @stdout One skill directory name per link.
-function readme_skill_names() {
+# @description Read skill paths linked from the README `## Skills` section.
+# @stdout One collection/skill path per link.
+function readme_skill_paths() {
     awk '
         $0 == "## Skills" { in_skills = 1; next }
         in_skills && /^## / { exit }
         in_skills { print }
-    ' "${README_FILE}" | sed -n 's#.*](skills/\([^/]*\)/).*#\1#p'
+    ' "${README_FILE}" | sed -n 's#.*](skills/\([^)]*\)/).*#\1#p'
 }
 
 # @description Verify that the README skill index matches the skill directories.
@@ -245,45 +240,47 @@ function assert_readme_skill_index() {
         return 0
     fi
 
-    local skill_dir name count
-    for skill_dir in "${SKILLS_ROOT}"/*/; do
+    local skill_dir path name count
+    for skill_dir in "${SKILLS_ROOT}"/*/*/; do
         skill_dir="${skill_dir%/}"
-        case "${skill_dir}" in
-        *-workspace) continue ;;
+        case "${skill_dir#"${SKILLS_ROOT}/"}" in
+        *-workspace/* | *-workspace) continue ;;
         esac
 
-        name="$(basename -- "${skill_dir}")"
-        count="$(readme_skill_names | awk -v expected="${name}" '$0 == expected { count++ } END { print count + 0 }')"
+        path="${skill_dir#"${SKILLS_ROOT}/"}"
+        count="$(readme_skill_paths | awk -v expected="${path}" '$0 == expected { count++ } END { print count + 0 }')"
         if [ "${count}" -eq 0 ]; then
-            fail "skills/${name} is missing from README.md"
-        elif [ "${count}" -gt 1 ]; then
-            fail "README.md lists skill ${name} more than once"
+            fail "skills/${path} is missing from README.md"
         fi
     done
 
-    while IFS= read -r name; do
-        [ -n "${name}" ] || continue
-        if [ ! -d "${SKILLS_ROOT}/${name}" ]; then
-            fail "README.md lists missing skill ${name}"
+    while IFS= read -r path; do
+        [ -n "${path}" ] || continue
+        if [ ! -f "${SKILLS_ROOT}/${path}/SKILL.md" ]; then
+            fail "README.md lists missing skill ${path}"
         fi
-    done < <(readme_skill_names | sort -u)
+    done < <(readme_skill_paths | sort -u)
+
+    while IFS= read -r name; do
+        fail "README.md lists skill ${name} more than once"
+    done < <(readme_skill_paths | awk -F/ '{print $NF}' | sort | uniq -d)
 }
 
 # @description Run every layout check and report the collected failures.
 function main() {
     assert_no_root_skill_file
-    assert_no_nested_skill_files
+    assert_skill_depth
     assert_no_tracked_workspaces
     assert_readme_skill_index
 
     local skill_dir
-    for skill_dir in "${SKILLS_ROOT}"/*/; do
+    for skill_dir in "${SKILLS_ROOT}"/*/*/; do
         skill_dir="${skill_dir%/}"
         # Shuhari writes `<skill>-workspace/` beside the skill it evaluated.
         # Those are gitignored run artifacts, not skills, and they are present
         # whenever someone has run a gate locally.
-        case "${skill_dir}" in
-        *-workspace) continue ;;
+        case "${skill_dir#"${SKILLS_ROOT}/"}" in
+        *-workspace/* | *-workspace) continue ;;
         esac
         check_skill "${skill_dir}"
     done

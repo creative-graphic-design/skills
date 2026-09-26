@@ -63,7 +63,8 @@ validate:
 .PHONY: eval
 eval:
 	@set -e; \
-	for dir in skills/*/; do \
+	for dir in skills/*/*/; do \
+	    case "$$dir" in *-workspace/*) continue ;; esac; \
 	    if [ -f "$$dir/evals/evals.json" ]; then \
 	        MISE_ENABLE_TOOLS=$(SHUHARI_TOOL) mise exec -- \
 	            ./scripts/shuhari_staged_targets.sh eval "$$dir/SKILL.md"; \
@@ -73,7 +74,8 @@ eval:
 .PHONY: check-triggers
 check-triggers:
 	@set -e; \
-	for dir in skills/*/; do \
+	for dir in skills/*/*/; do \
+	    case "$$dir" in *-workspace/*) continue ;; esac; \
 	    if [ -f "$$dir/evals/triggers.json" ]; then \
 	        MISE_ENABLE_TOOLS=$(SHUHARI_TOOL) mise exec -- \
 	            shuhari check trigger --trials $(TRIALS) --jobs $(JOBS) --timeout $(TIMEOUT) "$$dir"; \
