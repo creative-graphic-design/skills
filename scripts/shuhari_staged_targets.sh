@@ -180,9 +180,6 @@ function skill_path_of() {
     local collection="${rest%%/*}"
     rest="${rest#*/}"
     local name="${rest%%/*}"
-    case "${name}" in
-    *-workspace) return 0 ;;
-    esac
     printf '%s/%s\n' "${collection}" "${name}"
 }
 
