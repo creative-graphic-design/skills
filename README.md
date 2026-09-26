@@ -40,6 +40,8 @@ Both plugins read the same `skills/` directory. The `skills` CLI installs select
 
 ## Skills
 
+No skills have been added yet. Each published skill will use the `cgd-` prefix and appear in the generated documentation.
+
 ## Layout
 
 Each skill is one directory under `skills/`:
