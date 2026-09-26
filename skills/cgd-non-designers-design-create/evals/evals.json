@@ -1,0 +1,16 @@
+{
+  "skill_name": "cgd-non-designers-design-create",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a finished 1080 × 1350 SVG poster for a beginner community workshop, readable on a phone. Use only #172B4D, #F2B134, and #FFFFFF, and one system sans-serif family with its weights; no external assets. Preserve these exact visible strings: 'Make Your First Zine', 'Beginner workshop', '18 October 2026 · 14:00–16:00', 'Maple Community Room', 'Free · Materials provided', 'Reserve: zine@example.org', 'Maple Arts Collective'. Give the workshop title first emphasis, group the practical details, and make reserving easy to find. Save poster.svg and a short delivery.md describing any verification limits. Do not add marketing copy or change the text.",
+      "expected_output": "A complete SVG at the requested dimensions with all seven exact strings, the constrained palette and type family, and an intentional title → practical details → reservation hierarchy.",
+      "files": [],
+      "assertions": [
+        "poster.svg is valid SVG with a 1080 by 1350 canvas.",
+        "The SVG preserves all seven required visible strings without adding new visible wording.",
+        "The design uses only the three allowed colors, one system sans-serif family, and no external assets."
+      ]
+    }
+  ]
+}

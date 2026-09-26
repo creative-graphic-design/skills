@@ -1,0 +1,16 @@
+{
+  "skill_name": "cgd-non-designers-design-skill",
+  "evals": [
+    {
+      "id": 4,
+      "prompt": "Use cgd-non-designers-design-skill to create, review, and refine a poster for a quiet photography exhibition called Night Windows. Only that coordinating skill is installed in this environment; no other cgd skill is available. Do not install anything or use a development checkout as a substitute. Save status.md explaining whether you can run the combined workflow and what is needed if not.",
+      "expected_output": "A short status explaining that the combined workflow needs cgd-non-designers-design-create and cgd-non-designers-design-review installed alongside the coordinator; no invented design work or installation.",
+      "files": [],
+      "assertions": [
+        "The status identifies both cgd-non-designers-design-create and cgd-non-designers-design-review as required companions.",
+        "The agent does not claim to have created or reviewed a poster and produces no design artifact.",
+        "The response asks for the missing companions to be made available without installing anything or substituting development copies."
+      ]
+    }
+  ]
+}

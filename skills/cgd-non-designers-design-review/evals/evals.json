@@ -1,0 +1,17 @@
+{
+  "skill_name": "cgd-non-designers-design-review",
+  "evals": [
+    {
+      "id": 2,
+      "prompt": "Review this formal invitation layout specification; do not create or edit a design. Centered alignment, black on white, and Georgia are approved brand choices and must stay. Canvas: 600 × 840. Every line is centered on x=300. 'WILLOW SOCIETY' is 54px bold at y=105; 'Annual Dinner' is 22px regular at y=220; '24 October 2026' is 18px at y=420; '18:30' is 18px at y=447; 'Oak Hall' is 18px at y=474; 'Please RSVP by 10 October' is 18px at y=565; 'rsvp@example.org' is 18px at y=770. The purpose is to invite existing members to the dinner and get RSVPs. All text has space to fit within the page. I only have this specification, not a rendering. Give prioritized, specific fixes, including type and spacing, in review.md. Do not add a fault merely to cover every design principle.",
+      "expected_output": "A critique tied to the supplied positions and sizes, addressing detached RSVP details and assessing hierarchy while retaining centered monochrome Georgia; visual claims are limited to the specification.",
+      "files": [],
+      "assertions": [
+        "The output is critique only, with no created or edited design artifact.",
+        "The critique identifies the detached RSVP address, explains the reader consequence, and proposes an actionable spacing change grounded in the supplied positions.",
+        "Proposed changes preserve centered alignment, monochrome color, and Georgia.",
+        "The critique distinguishes specification-based conclusions from unperformed rendered checks."
+      ]
+    }
+  ]
+}
