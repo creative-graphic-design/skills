@@ -1,0 +1,16 @@
+{
+  "name": "creative-graphic-design",
+  "description": "Public coding-agent skills from Creative Graphic Design.",
+  "owner": {
+    "name": "Creative Graphic Design",
+    "url": "https://github.com/creative-graphic-design"
+  },
+  "plugins": [
+    {
+      "name": "cgd-skills",
+      "source": "./",
+      "description": "Public coding-agent skills from Creative Graphic Design.",
+      "category": "productivity"
+    }
+  ]
+}

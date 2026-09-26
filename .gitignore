@@ -1,0 +1,19 @@
+# Shuhari writes iteration artifacts next to the evaluated skill, so they land
+# inside `skills/`. They hold verbatim agent transcripts: never commit them.
+skills/*-workspace/
+
+.agents/worklog/
+.playwright-cli/
+.DS_Store
+
+__pycache__/
+*.py[cod]
+.venv/
+
+# The documentation site is generated from the skills by
+# `scripts/build_docs.py`, and built from that by Zensical. Committing either
+# would mean every skill edit carries a second, mechanical diff that can drift
+# from its source.
+docs/
+site/
+.cache/
