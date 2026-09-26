@@ -1,0 +1,17 @@
+{
+  "name": "cgd-skills",
+  "description": "Public coding-agent skills from Creative Graphic Design.",
+  "author": {
+    "name": "Creative Graphic Design",
+    "url": "https://github.com/creative-graphic-design"
+  },
+  "homepage": "https://creative-graphic-design.github.io/skills/",
+  "repository": "https://github.com/creative-graphic-design/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "skills",
+    "claude-code",
+    "codex",
+    "design"
+  ]
+}

@@ -1,0 +1,83 @@
+name: CI
+
+# No workflow-level path filters: a skipped required check can stay pending and
+# block merges. Jobs decide what to do instead.
+#
+# `pull_request` carries no branch filter on purpose. Filtering it to `main`
+# would silently give stacked pull requests no CI at all, because their base is
+# the branch below them rather than `main`.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # Runs the same offline pre-commit hooks developers run. Shuhari hooks are in
+  # the manual stage and never run on a hosted runner.
+  gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: jdx/mise-action@v3
+        with:
+          cache: true
+
+      - name: Run offline gates
+        run: make gate
+
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: jdx/mise-action@v3
+        with:
+          cache: true
+
+      - name: Validate skill layout and eval schemas
+        run: make validate
+
+  test:
+    # macOS is here for the shell tests, not for coverage. It ships Bash 3.2,
+    # and a script that uses a Bash 4 feature runs fine on Linux and dies on the
+    # machine an agent actually works on. That is how a `declare -A` reached
+    # this repository unnoticed.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-14]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: jdx/mise-action@v3
+        with:
+          cache: true
+
+      - name: Report the Bash the shell tests will use
+        run: bash --version | head -1
+
+      - name: Run unit tests
+        run: make test
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Run `shfmt`
+        uses: reviewdog/action-shfmt@v1
+        with:
+          shfmt_flags: -i 4 -sr -d
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master

@@ -1,0 +1,140 @@
+TRIALS ?= 3
+JOBS ?= 8
+TIMEOUT ?= 600
+
+# The full backend name matches mise's disabled tool setting. Evaluation targets
+# opt in to this tool without activating it for setup, hooks, or other commands.
+SHUHARI_TOOL := go:github.com/shunk031/shuhari/cmd/shuhari
+
+# Keep in step with the `go` pin in mise.toml.
+GO_VERSION ?= 1.26.5
+
+# Keep in step with the `python` pin in mise.toml.
+PYTHON_VERSION ?= 3.14.6
+
+#
+# Development
+#
+
+.PHONY: setup
+setup:
+	mise install
+	mise exec -- prek install
+
+# shuhari ships no git tags, so its module version list is empty and mise cannot
+# resolve `latest`. mise.toml therefore pins the pseudo-version of a specific
+# `main` commit. This re-resolves that pin against current `main`.
+#
+# `GOPROXY=direct` is required, not a preference: proxy.golang.org serves a
+# cached `@latest` that can lag a merge by a long time, and bumping to a stale
+# commit looks like success. Direct resolution reads the repository.
+#
+# `mise x go@...` runs only the Go toolchain, so this still works when the
+# current shuhari pin is unresolvable. Do not route it through `mise exec`,
+# which resolves every pinned tool first and would fail before the recipe runs.
+.PHONY: bump-shuhari
+bump-shuhari:
+	@version="$$(GOPROXY=direct mise x go@$(GO_VERSION) -- \
+	    go list -m -f '{{.Version}}' github.com/shunk031/shuhari@latest 2>/dev/null)"; \
+	if [ -z "$$version" ]; then \
+	    echo "failed to resolve a shuhari version from the module source" >&2; \
+	    exit 1; \
+	fi; \
+	version="$${version#v}"; \
+	sed -i.bak \
+	    "s|^\"go:github.com/shunk031/shuhari/cmd/shuhari\" = .*|\"go:github.com/shunk031/shuhari/cmd/shuhari\" = \"$$version\"|" \
+	    mise.toml; \
+	rm -f mise.toml.bak; \
+	echo "pinned shuhari to $$version"
+	mise install
+
+#
+# Gates
+#
+
+# Offline skill layout checks. Shuhari schema validation remains available from
+# the manual pre-commit stage when evaluation work resumes.
+.PHONY: validate
+validate:
+	./scripts/check_skill_layout.sh
+
+# Live model calls against every skill. Deliberately a manual, occasional run;
+# the pre-commit hooks gate incrementally.
+.PHONY: eval
+eval:
+	@set -e; \
+	for dir in skills/*/; do \
+	    if [ -f "$$dir/evals/evals.json" ]; then \
+	        MISE_ENABLE_TOOLS=$(SHUHARI_TOOL) mise exec -- \
+	            ./scripts/shuhari_staged_targets.sh eval "$$dir/SKILL.md"; \
+	    fi; \
+	done
+
+.PHONY: check-triggers
+check-triggers:
+	@set -e; \
+	for dir in skills/*/; do \
+	    if [ -f "$$dir/evals/triggers.json" ]; then \
+	        MISE_ENABLE_TOOLS=$(SHUHARI_TOOL) mise exec -- \
+	            shuhari check trigger --trials $(TRIALS) --jobs $(JOBS) --timeout $(TIMEOUT) "$$dir"; \
+	    fi; \
+	done
+
+#
+# Documentation
+#
+
+# Zensical is pinned on the command line rather than in mise.toml: it is a
+# Python package, uv is already how this repository runs Python, and the pin
+# stays visible next to the command that uses it. Zensical is pre-1.0 and cuts
+# releases weekly, so an unpinned build would change under us.
+ZENSICAL_VERSION ?= 0.0.56
+ZENSICAL = uv run --python $(PYTHON_VERSION) --no-project --with zensical==$(ZENSICAL_VERSION) --
+
+# `docs/` is generated from the skills, so it is gitignored and rebuilt rather
+# than committed.
+.PHONY: docs
+docs:
+	uv run --python $(PYTHON_VERSION) --no-project -- python scripts/build_docs.py
+
+# `--strict` fails on a broken link. A skill body links to its own references by
+# relative path, and those links only resolve because the generator publishes
+# them beside the page.
+.PHONY: docs-build
+docs-build: docs
+	$(ZENSICAL) zensical build --clean --strict
+
+.PHONY: docs-serve
+docs-serve: docs
+	$(ZENSICAL) zensical serve
+
+#
+# Quality
+#
+
+# Unit tests for the shell scripts skills ship. Offline, no agent.
+.PHONY: test-bats
+test-bats:
+	mise exec -- bats tests/bats
+
+.PHONY: test
+test: test-python test-bats
+
+# Unit tests for the Python scripts skills ship. Offline, no agent.
+#
+# `--no-project` keeps this from adopting a pyproject.toml that does not exist,
+# and naming the interpreter keeps a bare `python` on PATH — or an activated
+# virtualenv from another checkout — from deciding which one runs.
+.PHONY: test-python
+test-python:
+	uv run --python $(PYTHON_VERSION) --no-project -- python -m unittest discover -s tests/python
+
+# The same offline hooks CI runs. Shuhari hooks use the manual stage and are not
+# part of this run.
+.PHONY: gate
+gate:
+	mise exec -- prek run --all-files
+
+.PHONY: format
+format:
+	shfmt --indent 4 --space-redirects --diff .
