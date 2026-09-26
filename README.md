@@ -73,10 +73,6 @@ make bump-shuhari     # update the pinned Shuhari version
 
 The trigger and evaluation commands make model calls. Run them only when evaluation work is part of the change.
 
-## Renovate
-
-The repository includes the shared Renovate configuration and workflow. The workflow reads `MY_SELF_HOSTED_RENOVATE_CLIENT_ID` from GitHub repository or organization variables and `MY_SELF_HOSTED_RENOVATE_APP_PRIVATE_KEY` from GitHub secrets. Their values do not belong in git.
-
 ## License
 
 [Apache-2.0](LICENSE)
