@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Neighborhood story hour invitation</title>
+  <desc id="desc">A centered monochrome single-family invitation for a neighborhood story hour.</desc>
+  <rect width="1080" height="1350" fill="#FFFDF8"/>
+  <rect x="80" y="80" width="920" height="1190" rx="26" fill="none" stroke="#17324D" stroke-width="3"/>
+
+  <circle cx="540" cy="150" r="23" fill="#17324D"/>
+  <line x1="430" y1="150" x2="500" y2="150" stroke="#17324D" stroke-width="3"/>
+  <line x1="580" y1="150" x2="650" y2="150" stroke="#17324D" stroke-width="3"/>
+  <text x="540" y="232" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="20" font-weight="700" letter-spacing="3">JUNIPER LIBRARY PRESENTS</text>
+
+  <text x="540" y="430" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="76" font-weight="700">STORIES</text>
+  <text x="540" y="520" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="76" font-weight="700">AFTER SUNSET</text>
+  <text x="540" y="590" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="27">Short readings and warm tea</text>
+  <line x1="300" y1="650" x2="780" y2="650" stroke="#17324D" stroke-width="3"/>
+
+  <rect x="198" y="720" width="684" height="306" rx="18" fill="#17324D"/>
+  <text x="540" y="786" text-anchor="middle" fill="#FFFDF8" font-family="Arial" font-size="22" font-weight="700" letter-spacing="2">FRIDAY 30 MAY</text>
+  <text x="540" y="836" text-anchor="middle" fill="#FFFDF8" font-family="Arial" font-size="31" font-weight="700">Doors 18:30</text>
+  <text x="540" y="880" text-anchor="middle" fill="#FFFDF8" font-family="Arial" font-size="27">Juniper Library</text>
+  <line x1="390" y1="914" x2="690" y2="914" stroke="#FFFDF8" stroke-width="2"/>
+  <text x="540" y="948" text-anchor="middle" fill="#FFFDF8" font-family="Arial" font-size="19">Free admission · reserve a seat</text>
+  <text x="540" y="986" text-anchor="middle" fill="#FFFDF8" font-family="Arial" font-size="21" font-weight="700">seat@example.org</text>
+
+  <text x="540" y="1178" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="17">Bring one page to read aloud, or simply listen.</text>
+</svg>

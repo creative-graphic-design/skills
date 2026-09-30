@@ -15,7 +15,7 @@
 function make_fixture_skill() {
     local fixture_root="$1"
     local name="$2"
-    local skill_dir="${fixture_root}/skills/${name}"
+    local skill_dir="${fixture_root}/skills/design/${name}"
     mkdir -p "${skill_dir}/evals"
     printf '# %s\n' "${name}" > "${skill_dir}/SKILL.md"
     printf '{"skill_name": "%s", "evals": []}\n' "${name}" > "${skill_dir}/evals/evals.json"

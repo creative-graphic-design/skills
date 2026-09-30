@@ -12,10 +12,10 @@
 
 ## Skill layout
 
-- Every skill lives at `skills/<name>/` and contains `SKILL.md`.
+- Every skill lives at `skills/<collection>/<name>/` and contains `SKILL.md`.
 - Every owned skill name starts with `cgd-`. The layout checker currently enforces the prefix but does not impose a domain allowlist.
 - The frontmatter `name` must equal the skill directory name and must include a non-empty `description`.
-- A `SKILL.md` must not sit at the repository root or deeper than `skills/<name>/SKILL.md`.
+- A `SKILL.md` must appear only at `skills/<collection>/<name>/SKILL.md`, not at the repository root, collection root, or a deeper level.
 - The body of every `SKILL.md` starts with a read-receipt NOTE immediately after its frontmatter.
 - Keep references, scripts, and evaluation files inside the skill directory because the installer copies that directory.
 - Do not add a sample skill just to populate the repository. Add a real skill when its content is ready.
@@ -25,7 +25,7 @@
 - Routine checks are offline. Shuhari validation and model evaluations use the `manual` pre-commit stage.
 - `make check-triggers` and `make eval` are explicit live evaluation commands. Run them only when evaluation work is part of the task.
 - Shuhari writes workspaces beside the evaluated skill. They are gitignored and must never be committed because they contain agent transcripts.
-- A completed evaluation writes `skills/<name>/evals/results.json`. Commit that file with the skill change that produced it.
+- A completed evaluation writes `skills/<collection>/<name>/evals/results.json`. Commit that file with the skill change that produced it.
 - Do not add `AGENTS.evals.json` to this repository.
 
 ## Development setup

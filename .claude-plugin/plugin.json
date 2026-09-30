@@ -13,5 +13,6 @@
     "claude-code",
     "codex",
     "design"
-  ]
+  ],
+  "skills": "./skills/non-designers-design-skills/"
 }

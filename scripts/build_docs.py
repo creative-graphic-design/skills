@@ -120,6 +120,11 @@ def read_skill(skill_dir: Path) -> dict[str, Any] | None:
         "has_evals": (skill_dir / "evals" / "evals.json").is_file(),
         "has_triggers": (skill_dir / "evals" / "triggers.json").is_file(),
         "references": references,
+        "images": [
+            image
+            for image in sorted((skill_dir / "references").glob("*"))
+            if image.is_file() and image.suffix in {".png", ".svg"}
+        ],
         "results": results,
     }
 
@@ -336,10 +341,13 @@ def main() -> int:
     output.mkdir(parents=True, exist_ok=True)
 
     skills = []
-    for skill_dir in sorted(SKILLS_ROOT.iterdir()):
-        # Shuhari writes `<skill>-workspace/` beside the skill it evaluated.
-        # Those are gitignored run artifacts, not skills.
-        if not skill_dir.is_dir() or skill_dir.name.endswith("-workspace"):
+    for skill_dir in sorted(SKILLS_ROOT.glob("*/*")):
+        # Shuhari writes `*-workspace/` at either level beside evaluated skills.
+        if (
+            not skill_dir.is_dir()
+            or skill_dir.parent.name.endswith("-workspace")
+            or skill_dir.name.endswith("-workspace")
+        ):
             continue
         skill = read_skill(skill_dir)
         if skill:
@@ -379,6 +387,11 @@ def main() -> int:
             )
             destination.write_text(body + reference.read_text())
             pages += 1
+
+        for image in skill["images"]:
+            destination = page_dir / "references" / image.name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(image.read_bytes())
 
     nav_path = (REPO_ROOT / args.nav).resolve()
     nav_path.parent.mkdir(parents=True, exist_ok=True)

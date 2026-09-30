@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Community seed swap invitation</title>
+  <desc id="desc">A deliberately uneven two-color poster for a community seed swap.</desc>
+  <rect width="1080" height="1350" fill="#FFFDF8"/>
+
+  <rect x="72" y="72" width="300" height="54" rx="27" fill="#F2B134"/>
+  <text x="222" y="108" text-anchor="middle" fill="#17324D" font-family="Arial" font-size="17" font-weight="700" letter-spacing="1">RIVERBEND COMMONS</text>
+  <text x="1004" y="104" text-anchor="end" fill="#17324D" font-family="Arial" font-size="18">seeds@example.org</text>
+
+  <text x="72" y="292" fill="#F2B134" font-family="Arial" font-size="166" font-weight="900">FREE</text>
+  <text x="72" y="380" fill="#17324D" font-family="Arial" font-size="56" font-weight="700">COMMUNITY</text>
+  <text x="72" y="458" fill="#17324D" font-family="Arial" font-size="72" font-weight="700">SEED SWAP</text>
+  <text x="72" y="520" fill="#17324D" font-family="Arial" font-size="27">Trade seeds. Share growing tips.</text>
+
+  <rect x="72" y="594" width="936" height="6" fill="#17324D"/>
+  <text x="72" y="748" fill="#F2B134" font-family="Arial" font-size="116" font-weight="900">10:00–12:30</text>
+  <text x="632" y="804" fill="#17324D" font-family="Arial" font-size="23" font-weight="700">SATURDAY 17 MAY</text>
+  <text x="632" y="842" fill="#17324D" font-family="Arial" font-size="23">RIVERBEND COMMONS</text>
+
+  <text x="72" y="930" fill="#17324D" font-family="Arial" font-size="62" font-weight="700">BRING ONE STORY</text>
+  <text x="72" y="980" fill="#17324D" font-family="Arial" font-size="24">and a labeled packet of seeds to share.</text>
+
+  <rect x="72" y="1110" width="404" height="94" rx="12" fill="#F2B134"/>
+  <text x="104" y="1151" fill="#17324D" font-family="Arial" font-size="18" font-weight="700" letter-spacing="1">RSVP BY 5 MAY</text>
+  <text x="104" y="1182" fill="#17324D" font-family="Arial" font-size="17">Bring a friend or come solo.</text>
+  <text x="1004" y="1218" text-anchor="end" fill="#17324D" font-family="Arial" font-size="17">seeds@example.org</text>
+  <rect x="636" y="1096" width="372" height="8" fill="#F2B134"/>
+</svg>

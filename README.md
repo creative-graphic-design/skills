@@ -36,18 +36,22 @@ codex plugin marketplace add creative-graphic-design/skills
 codex plugin add cgd-skills@creative-graphic-design
 ```
 
-Both plugins read the same `skills/` directory. The `skills` CLI installs selected skills, while the plugins install the repository as a whole.
+Both plugins read `skills/non-designers-design-skills/`. The `skills` CLI installs selected skills, while the plugins install the repository as a whole.
 
 ## Skills
 
 Each published skill will use the `cgd-` prefix and appear in the generated documentation.
 
+| Skill                                                                                                  | What it does                                                                              |
+| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| [`cgd-non-designers-design-skill`](skills/non-designers-design-skills/cgd-non-designers-design-skill/) | Create, review, or improve visual layouts using design principles, color, and typography. |
+
 ## Layout
 
-Each skill is one directory under `skills/`:
+Related skills share a collection directory under `skills/`:
 
 ```text
-skills/<name>/
+skills/<collection>/<name>/
 ├── SKILL.md            # required; frontmatter `name` must equal <name>
 ├── agents/             # optional per-agent wrappers
 ├── references/         # optional supporting documents
@@ -55,7 +59,7 @@ skills/<name>/
 └── evals/              # optional evaluation cases and results
 ```
 
-The repository root must not contain `SKILL.md`, and a skill must not be nested below `skills/<name>/SKILL.md`. The installer copies each skill directory, so files needed at runtime belong inside that directory.
+Only individual skill directories contain `SKILL.md`; repository and collection roots do not. The installer copies each skill directory, so files needed at runtime belong inside that directory.
 
 ## Development
 
