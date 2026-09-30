@@ -42,11 +42,9 @@ Both plugins read `skills/non-designers-design-skills/`. The `skills` CLI instal
 
 Each published skill will use the `cgd-` prefix and appear in the generated documentation.
 
-| Skill                                                                                                    | What it does                                                                    |
-| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| [`cgd-non-designers-design-create`](skills/non-designers-design-skills/cgd-non-designers-design-create/) | Create or revise visual layouts using design principles, color, and typography. |
-| [`cgd-non-designers-design-review`](skills/non-designers-design-skills/cgd-non-designers-design-review/) | Diagnose design problems and propose specific improvements.                     |
-| [`cgd-non-designers-design-skill`](skills/non-designers-design-skills/cgd-non-designers-design-skill/)   | Coordinate creation, review, and revision; requires both companion skills.      |
+| Skill                                                                                                  | What it does                                                                              |
+| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| [`cgd-non-designers-design-skill`](skills/non-designers-design-skills/cgd-non-designers-design-skill/) | Create, review, or improve visual layouts using design principles, color, and typography. |
 
 ## Layout
 
